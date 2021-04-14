@@ -1,12 +1,17 @@
 #!/usr/bin/env python3
+"""Telegram Assistant is a Telegram daemon that automates user tasks.
+
+TGA is created for simplifying the process of performing routine job
+in Telegram Messenger and also for casting some fancy message magic.
+"""
 
 import json
 import os
-import random
-import string
 import telethon
 
+
 class TelegramAssistant():
+    """A single class defining all TGA methods used for now."""
 
     def __init__(self, config_path):
         """Client initialization.
@@ -17,8 +22,8 @@ class TelegramAssistant():
         self.config = {}
 
         if (not os.path.exists(config_path) or
-            not self.config['api_hash'] or
-            not self.config['api_id']):
+                not self.config['api_hash'] or
+                not self.config['api_id']):
             self.initialize_auth_config()
         else:
             with open(config_path, 'r') as f:
@@ -29,7 +34,7 @@ class TelegramAssistant():
                                               self.config['api_hash'])
 
     def initialize_auth_config(self):
-        """Config initialization. Needed at first startup"""
+        """Config initialization. Needed at first startup."""
         print("""First time hello! Let's configure your TGA""")
 
         self.config['api_hash'] = input('api_hash: ')
@@ -43,13 +48,14 @@ class TelegramAssistant():
         print("Great! You can edit your configuration at storage/config.json")
 
     async def verify_auth(self):
-        """This function verifies if connection succeeded"""
+        """Auth verification function for testing purposes."""
         await self.client.send_message('me', 'Domo, senpai!')
         me = await self.client.get_me()
         print(me.stringify())
 
+
 async def main(tga):
-    """Main function. Anything for testing.
+    """General program flow for demonstrating modules or creating scenarios.
 
     Args:
         tga: Telegram Assistant object to perform actions.
@@ -61,4 +67,3 @@ if __name__ == '__main__':
 
     tga = TelegramAssistant(config_path='storage/config.json')
     tga.client.loop.run_until_complete(main(tga))
-
