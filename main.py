@@ -11,7 +11,6 @@ import random
 import string
 import telethon
 
-from telethon import functions, types
 
 class TelegramAssistant():
     """A single class defining all TGA methods used for now."""
