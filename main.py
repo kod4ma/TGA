@@ -41,9 +41,6 @@ class TelegramAssistant():
 
         self.config['api_hash'] = input('api_hash: ')
         self.config['api_id'] = int(input('api_id: '))
-        # self.config['session_id'] = input('session_id: ')
-        # session_id_len = int(input('session_id_len: '))
-
         self.config['session_id'] = ''.join(random.choices(
                                             string.ascii_lowercase, k=8))
 
