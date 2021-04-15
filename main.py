@@ -7,6 +7,8 @@ in Telegram Messenger and also for casting some fancy message magic.
 
 import json
 import os
+import random
+import string
 import telethon
 
 
@@ -21,13 +23,13 @@ class TelegramAssistant():
         """
         self.config = {}
 
-        if (not os.path.exists(config_path) or
-                not self.config['api_hash'] or
-                not self.config['api_id']):
-            self.initialize_auth_config()
-        else:
+        if os.path.exists(config_path):
             with open(config_path, 'r') as f:
                 self.config = json.loads(f.read())
+            if not self.config['api_hash'] or not self.config['api_id']:
+                self.initialize_auth_config()
+        else:
+            self.initialize_auth_config()
 
         self.client = telethon.TelegramClient(self.config['session_id'],
                                               self.config['api_id'],
@@ -39,8 +41,11 @@ class TelegramAssistant():
 
         self.config['api_hash'] = input('api_hash: ')
         self.config['api_id'] = int(input('api_id: '))
-        self.config['session_id'] = input('session_id: ')
-        self.config['session_id_len'] = int(input('session_id_len: '))
+        # self.config['session_id'] = input('session_id: ')
+        # session_id_len = int(input('session_id_len: '))
+
+        self.config['session_id'] = ''.join(random.choices(
+                                            string.ascii_lowercase, k=8))
 
         with open('storage/config.json', 'w') as f:
             f.write(json.dumps(self.config))
