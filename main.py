@@ -11,6 +11,7 @@ import random
 import string
 import telethon
 
+from telethon import functions, types
 
 class TelegramAssistant():
     """A single class defining all TGA methods used for now."""
@@ -63,7 +64,20 @@ async def main(tga):
         tga: Telegram Assistant object to perform actions.
     """
     await tga.client.start()
-    await tga.verify_auth()
+
+    @tga.client.on(telethon.events.NewMessage)
+    async def new_msg_handler(event):
+        message_meta = event.message.to_dict()
+        message = message_meta['message']
+        sender_id = str(message_meta['from_id']['user_id'])
+
+        with open('storage/messages.db', 'a') as f:
+            f.write(sender_id + ':' + message + '\n')
+
+        print(f"+message: <{message}> from {sender_id}")
+
+    print("[*] TGA is logged in and listening for events...")
+    await tga.client.run_until_disconnected()
 
 if __name__ == '__main__':
 

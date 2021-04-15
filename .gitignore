@@ -3,3 +3,6 @@
 
 # ignore all .json files
 .json
+
+# ignore all .db files
+.db
