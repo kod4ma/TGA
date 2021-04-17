@@ -12,6 +12,74 @@ import string
 import sqlite3
 import telethon
 import time
+import tkinter as tk
+
+
+class Application(tk.Frame):
+    """Class for working with tkinter."""
+
+    def __init__(self, master=None):
+        """Initialize of the main window."""
+        super().__init__(master)
+        self.master.title("TGA ^_^")
+        self.master.minsize(width=600, height=400)
+        self.master.columnconfigure(3, weight=1)
+        self.master.rowconfigure(1, weight=1)
+        self.create_widgets()
+
+    def create_widgets(self):
+        """Create widgets."""
+        self.F = tk.LabelFrame(self.master)
+        self.F.grid(sticky='news', columnspan=3, row=0)
+        self.F.quit = tk.Button(self.F, text="Завершить работу",
+                                command=self.master.destroy)
+        self.F.quit.grid(sticky='W')
+
+        self.f1 = tk.LabelFrame(self.master)
+        self.f1.rowconfigure(5, weight=1)
+        self.f1.grid(sticky='nsew', column=0, row=1)
+        self.f1.newb = tk.Button(self.f1)
+        self.f1.newb["text"] = "Включить менеджера"
+        self.f1.newb["command"] = self.manage
+        self.f1.newb.grid(sticky='nsew', column=0, row=1)
+        self.f1.lab = tk.Label(self.f1)
+        self.f1.lab["text"] = "Сохранятор выключен"
+        self.f1.lab.grid(column=0, row=4)
+
+        self.f2 = tk.LabelFrame(self.master, width=1000, height=100)
+        self.f2.rowconfigure(5, weight=1)
+        self.f2.grid(sticky='nsew', column=1, row=1)
+        self.f2.newb = tk.Button(self.f2)
+        self.f2.newb["command"] = self.save_me
+        self.f2.newb["text"] = "Включить сохронятор"
+        self.f2.newb.grid(column=0, row=0)
+        self.f2.lab = tk.Label(self.f2)
+        self.f2.lab["text"] = "Сохранятор выключен"
+        self.f2.lab.grid(column=0, row=4)
+
+        self.f3 = tk.LabelFrame(self.master)
+        self.f3.rowconfigure(5, weight=1)
+        self.f3.grid(sticky='nsew', column=2, row=1)
+        self.f3.newb = tk.Button(self.f3)
+        self.f3.newb["text"] = "Включить автоответчик"
+        self.f3.newb["command"] = self.answering
+        self.f3.newb.grid(sticky='nsew', column=0, row=0)
+
+        self.f3.lab = tk.Label(self.f3)
+        self.f3.lab["text"] = "Aвтоответчик выключен"
+        self.f3.lab.grid(column=0, row=4)
+
+    def answering(self):
+        """Use to start an answering machine."""
+        print("aurtoanswer")
+
+    def save_me(self):
+        """Use to start save machine."""
+        print("save_me")
+
+    def manage(self):
+        """Use to start manage machine."""
+        print("manage")
 
 
 class TelegramAssistant():
@@ -74,6 +142,9 @@ async def main(tga):
         tga: Telegram Assistant object to perform actions.
     """
     await tga.client.start()
+
+    app = Application()
+    app.mainloop()
 
     @tga.client.on(telethon.events.NewMessage)
     async def new_msg_handler(event):
