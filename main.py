@@ -123,7 +123,8 @@ class TelegramAssistant():
         cursor.execute("""CREATE TABLE messages (msg_id text,
                                                  timestamp text,
                                                  sender_id text,
-                                                 message text)
+                                                 message text,
+                                                 deleted int)
                         """)
 
         print("Great! You can edit your configuration at storage/config.json")
@@ -146,20 +147,39 @@ async def main(tga):
     app = Application()
     app.mainloop()
 
+    @tga.client.on(telethon.events.MessageDeleted)
+    async def save_deleted_messages(event):
+        """Save all messages that got deleted into database."""
+        for message_id in event.deleted_ids:
+            db = sqlite3.connect(tga.config['db_path'])
+            cursor = db.cursor()
+            cursor.execute(f"""SELECT * FROM messages
+                              WHERE msg_id = {message_id}
+                              AND deleted = 0
+                           """)
+            deleted_messages = cursor.fetchall()
+
+            for message in deleted_messages:
+                print(f'-message[{message[0]}]: <{message[3]}>')
+                cursor.execute(f"""UPDATE messages SET deleted = 1
+                                  WHERE msg_id = {message_id}
+                               """)
+                db.commit()
+
     @tga.client.on(telethon.events.NewMessage)
     async def new_msg_handler(event):
-        """Save all new messages into storage/<session_id>.db."""
+        """Save all new messages into database."""
         message_meta = event.message.to_dict()
         message = message_meta['message']
         message_id = str(message_meta['id'])
         sender_id = str(message_meta['from_id']['user_id'])
         timestamp = str(time.time())
 
-        row = [(message_id, timestamp, sender_id, message)]
+        row = [(message_id, timestamp, sender_id, message, 0)]
 
         db = sqlite3.connect(tga.config['db_path'])
         cursor = db.cursor()
-        cursor.executemany("INSERT INTO messages VALUES (?,?,?,?)", row)
+        cursor.executemany("INSERT INTO messages VALUES (?,?,?,?,?)", row)
         db.commit()
 
         print(f"+message[{message_id}]: <{message}> from {sender_id}")
