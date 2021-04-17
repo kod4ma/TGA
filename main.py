@@ -10,6 +10,7 @@ import os
 import random
 import string
 import telethon
+import time
 
 
 class TelegramAssistant():
@@ -68,12 +69,14 @@ async def main(tga):
     async def new_msg_handler(event):
         message_meta = event.message.to_dict()
         message = message_meta['message']
+        message_id = str(message_meta['id'])
         sender_id = str(message_meta['from_id']['user_id'])
+        timestamp = str(time.time())
 
         with open('storage/messages.db', 'a') as f:
-            f.write(sender_id + ':' + message + '\n')
+            f.write(f'{timestamp}:[{sender_id}|{message_id}]:{message}\n')
 
-        print(f"+message: <{message}> from {sender_id}")
+        print(f"+message[{message_id}]: <{message}> from {sender_id}")
 
     print("[*] TGA is logged in and listening for events...")
     await tga.client.run_until_disconnected()
