@@ -111,6 +111,7 @@ class TelegramAssistant():
 
         self.config['api_hash'] = input('api_hash: ')
         self.config['api_id'] = int(input('api_id: '))
+        self.config['mon_link'] = input('Monitor group invite link: ')
         self.config['session_id'] = ''.join(random.choices(
                                             string.ascii_lowercase, k=8))
         self.config['db_path'] = 'storage/' + self.config['session_id'] + '.db'
@@ -162,11 +163,18 @@ async def main(tga):
             for message in deleted_messages:
                 text = message[3]
                 sender = message[2]
-                print(f'-message[{message_id}]: <{text}> from {sender}')
+                log_info = f'-message[{message_id}]: <{text}> from {sender}'
                 cursor.execute(f"""UPDATE messages SET deleted = 1
                                   WHERE msg_id = {message_id}
                                """)
                 db.commit()
+
+                mon_link = tga.config['mon_link']
+                if mon_link:
+                    mon_group = await tga.client.get_entity(mon_link)
+                    await tga.client.send_message(entity=mon_group, message=log_info)
+
+                print(log_info)
 
     @tga.client.on(telethon.events.NewMessage)
     async def new_msg_handler(event):
