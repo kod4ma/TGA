@@ -9,6 +9,7 @@ import json
 import os
 import random
 import string
+import sqlite3
 import telethon
 import time
 
@@ -44,9 +45,18 @@ class TelegramAssistant():
         self.config['api_id'] = int(input('api_id: '))
         self.config['session_id'] = ''.join(random.choices(
                                             string.ascii_lowercase, k=8))
+        self.config['db_path'] = 'storage/' + self.config['session_id'] + '.db'
 
         with open('storage/config.json', 'w') as f:
             f.write(json.dumps(self.config))
+
+        conn = sqlite3.connect(self.config['db_path'])
+        cursor = conn.cursor()
+        cursor.execute("""CREATE TABLE messages (msg_id text,
+                                                 timestamp text,
+                                                 sender_id text,
+                                                 message text)
+                        """)
 
         print("Great! You can edit your configuration at storage/config.json")
 
@@ -67,14 +77,19 @@ async def main(tga):
 
     @tga.client.on(telethon.events.NewMessage)
     async def new_msg_handler(event):
+        """Save all new messages into storage/<session_id>.db."""
         message_meta = event.message.to_dict()
         message = message_meta['message']
         message_id = str(message_meta['id'])
         sender_id = str(message_meta['from_id']['user_id'])
         timestamp = str(time.time())
 
-        with open('storage/messages.db', 'a') as f:
-            f.write(f'{timestamp}:[{sender_id}|{message_id}]:{message}\n')
+        row = [(message_id, timestamp, sender_id, message)]
+
+        db = sqlite3.connect(tga.config['db_path'])
+        cursor = db.cursor()
+        cursor.executemany("INSERT INTO messages VALUES (?,?,?,?)", row)
+        db.commit()
 
         print(f"+message[{message_id}]: <{message}> from {sender_id}")
 
