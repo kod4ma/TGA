@@ -160,7 +160,9 @@ async def main(tga):
             deleted_messages = cursor.fetchall()
 
             for message in deleted_messages:
-                print(f'-message[{message[0]}]: <{message[3]}>')
+                text = message[3]
+                sender = message[2]
+                print(f'-message[{message_id}]: <{text}> from {sender}')
                 cursor.execute(f"""UPDATE messages SET deleted = 1
                                   WHERE msg_id = {message_id}
                                """)
@@ -175,14 +177,17 @@ async def main(tga):
         sender_id = str(message_meta['from_id']['user_id'])
         timestamp = str(time.time())
 
-        row = [(message_id, timestamp, sender_id, message, 0)]
+        sender = await tga.client.get_entity(int(sender_id))
+
+        row = [(message_id, timestamp, sender.first_name, message, 0)]
 
         db = sqlite3.connect(tga.config['db_path'])
         cursor = db.cursor()
         cursor.executemany("INSERT INTO messages VALUES (?,?,?,?,?)", row)
         db.commit()
 
-        print(f"+message[{message_id}]: <{message}> from {sender_id}")
+        sender = await tga.client.get_entity(int(sender_id))
+        print(f"+message[{message_id}]: <{message}> from {sender.first_name}")
 
     print("[*] TGA is logged in and listening for events...")
     await tga.client.run_until_disconnected()
