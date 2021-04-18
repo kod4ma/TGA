@@ -1,5 +1,5 @@
 #!/bin/bash
 
-rm *.session
+rm sessions/*.session
 rm storage/*.json
 rm storage/*.db
