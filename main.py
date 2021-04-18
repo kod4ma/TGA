@@ -296,7 +296,23 @@ class TelegramAssistant():
         print(me.stringify())
 
 
+async def manager_modul(tga, config):
+    print("i am in")
+    f = open("dictionaries/manage", "r")
+    text = f.read()
+    d = ast.literal_eval(text)
+    task = config['manage']['task']
+    thone = config['manage']['id']
+    my_choice = random.choice(d["first"])
+    await tga.client.send_message(thone, my_choice.
+                                  format(task=task,
+                                         day=config['manage']['day']))
 
+    for i in range(1, int(config['manage']['day'])):
+        my_choice = random.choice(d["other"])
+        await tga.client.send_message('+79209192031', my_choice.
+                                      format(task=task, day=str(i)),
+                                      schedule=timedelta(days=i))
 
 
 async def main(tga):
@@ -311,7 +327,8 @@ async def main(tga):
     app.mainloop()
     print(app.configuration)
 
-
+    if(app.configuration['manage'] != {}):
+        await manager_modul(tga, config=app.configuration)
 
 
     @tga.client.on(telethon.events.MessageDeleted)
