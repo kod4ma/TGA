@@ -12,9 +12,11 @@ import string
 import sqlite3
 import telethon
 import time
+import ast
 import tkinter as tk
 from tkinter import ttk
 from tkinter import messagebox as mb
+from datetime import timedelta
 
 
 class Application(tk.Frame):
@@ -27,6 +29,7 @@ class Application(tk.Frame):
         self.master.minsize(width=600, height=400)
         self.master.columnconfigure(3, weight=1)
         self.master.rowconfigure(1, weight=1)
+        self.configuration = {'manage': {}, 'save': {}, 'ansver': {}}
         self.create_widgets()
 
     def create_widgets(self):
@@ -34,7 +37,7 @@ class Application(tk.Frame):
         self.F = tk.LabelFrame(self.master)
         self.F.grid(sticky='news', columnspan=3, row=0)
         self.F.quit = tk.Button(self.F, text="Применить настройки",
-                                command=self.master.destroy)
+                                command=self.save_config)
         self.F.quit.grid(column=3, row=0)
 
         self.F.quit = tk.Label(self.F)
@@ -72,6 +75,8 @@ class Application(tk.Frame):
         self.f3.off_lab["text"] = ("Автоответчик будет включен\n в режимe "
                                    + self.f3.combo.get())
         self.f3.off_lab.grid(column=0, row=1)
+        self.configuration['ansver']['enabel'] = True
+        self.configuration['ansver']['dic'] = self.f3.combo.get()
 
     def on_auto(self, first_time=False):
         """Render of the choice of the optsy autoresponder."""
@@ -99,6 +104,7 @@ class Application(tk.Frame):
         self.f3.lab = tk.Label(self.f3, font='Times 15', fg='#960018')
         self.f3.lab["text"] = "Aвтоответчик будет выключен"
         self.f3.lab.grid(column=0, row=1)
+        self.configuration['ansver'] = {}
 
     def on_saver(self, first_time=False):
         """Render of the choice of the optsy save machine."""
@@ -120,6 +126,7 @@ class Application(tk.Frame):
         self.f2.lab = tk.Label(self.f2, font='Times 15', fg='#960018')
         self.f2.lab["text"] = "Сохранятор будет выключен"
         self.f2.lab.grid(column=0, row=1)
+        self.configuration['save'] = {}
 
     def off_saver(self):
         """Render an enabled save machine."""
@@ -135,10 +142,12 @@ class Application(tk.Frame):
         self.f2.lab["text"] = "Сохранятор будет включен"
         self.f2.lab.grid(column=0, row=1)
         self.f2.lab = tk.Label(self.f2, font='Times 15', fg='#247719')
+        self.configuration['save']['enabel'] = True
         if self.f2.message.get() == "":
             self.f2.lab["text"] = "Без группы уведомлений"
         else:
             self.f2.lab["text"] = "Адрес группы уведомлений получен"
+            self.configuration['save']['group'] = self.f2.message.get()
         self.f2.lab.grid(column=0, row=2)
 
     def on_manage(self, first_time=False):
@@ -152,7 +161,7 @@ class Application(tk.Frame):
         self.f1.newb["command"] = self.off_manage
         self.f1.newb.grid(sticky='nsew', column=0, row=0)
         self.f1.lab_id = tk.Label(self.f1)
-        self.f1.lab_id["text"] = ("ID исполнителя:")
+        self.f1.lab_id["text"] = ("Номер исполнителя:")
         self.f1.lab_id.grid(column=0, row=2)
         self.f1.m_id = tk.StringVar()
         self.f1.id_entry = tk.Entry(self.f1, textvariable=self.f1.m_id)
@@ -175,6 +184,7 @@ class Application(tk.Frame):
         self.f1.lab = tk.Label(self.f1, font='Times 15', fg='#960018')
         self.f1.lab["text"] = "Чайка-менеджер будет включен"
         self.f1.lab.grid(column=0, row=1)
+        self.configuration['manage'] = {}
 
     def off_manage(self):
         """Render an enabled manage machine."""
@@ -221,6 +231,14 @@ class Application(tk.Frame):
                                     + "\nна срок " + self.f1.m_day.get()
                                     + "(в днях)")
         self.f1.lab_info.grid(column=0, row=2)
+        self.configuration['manage']['enabel'] = True
+        self.configuration['manage']['task'] = self.f1.m_task.get()
+        self.configuration['manage']['id'] = self.f1.m_id.get()
+        self.configuration['manage']['day'] = self.f1.m_day.get()
+
+    def save_config(self):
+        """Output validation function."""
+        self.master.destroy()
 
 
 class TelegramAssistant():
@@ -278,6 +296,9 @@ class TelegramAssistant():
         print(me.stringify())
 
 
+
+
+
 async def main(tga):
     """General program flow for demonstrating modules or creating scenarios.
 
@@ -288,6 +309,10 @@ async def main(tga):
 
     app = Application()
     app.mainloop()
+    print(app.configuration)
+
+
+
 
     @tga.client.on(telethon.events.MessageDeleted)
     async def save_deleted_messages(event):
