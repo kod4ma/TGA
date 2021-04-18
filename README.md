@@ -36,6 +36,8 @@ MessageDeleted[575086]: <Мой пароль: 3poulakia!> from Phi
 MessageDeleted[575087]: <ой, не тот чат> from Phi
 ```
 
+![Группа с уведомлениями](docs/img/mon_group.png)
+
 ## Постановка задачи
 
 Написать программу **TGA** на [Telethon](https://github.com/LonamiWebs/Telethon), включающую в себя три модуля:
