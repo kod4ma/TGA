@@ -101,7 +101,7 @@ class TelegramAssistant():
         else:
             self.initialize_auth_config()
 
-        self.client = telethon.TelegramClient(self.config['session_id'],
+        self.client = telethon.TelegramClient(self.config['session_path'],
                                               self.config['api_id'],
                                               self.config['api_hash'])
 
@@ -112,9 +112,9 @@ class TelegramAssistant():
         self.config['api_hash'] = input('api_hash: ')
         self.config['api_id'] = int(input('api_id: '))
         self.config['mon_link'] = input('Monitor group invite link: ')
-        self.config['session_id'] = ''.join(random.choices(
-                                            string.ascii_lowercase, k=8))
-        self.config['db_path'] = 'storage/' + self.config['session_id'] + '.db'
+        sess_id = ''.join(random.choices(string.ascii_lowercase, k=8))
+        self.config['session_path'] = 'sessions/' + sess_id + '.session'
+        self.config['db_path'] = 'storage/' + sess_id + '.db'
 
         with open('storage/config.json', 'w') as f:
             f.write(json.dumps(self.config))
