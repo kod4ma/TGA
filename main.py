@@ -32,9 +32,14 @@ class Application(tk.Frame):
         """Create widgets."""
         self.F = tk.LabelFrame(self.master)
         self.F.grid(sticky='news', columnspan=3, row=0)
-        self.F.quit = tk.Button(self.F, text="Завершить работу",
+        self.F.quit = tk.Button(self.F, text="Применить настройки",
                                 command=self.master.destroy)
-        self.F.quit.grid(sticky='W')
+        self.F.quit.grid(column=3, row=0)
+
+        self.F.quit = tk.Label(self.F)
+        self.F.quit["text"] = ("Выберете и настройте модули которын"
+                               + "будут запущены    ")
+        self.F.quit.grid(column=0, row=0)
 
         self.f1 = tk.LabelFrame(self.master)
         self.f1.rowconfigure(5, weight=1)
@@ -75,7 +80,7 @@ class Application(tk.Frame):
         self.f3.off_auto["command"] = self.on_auto
         self.f3.off_auto.grid(sticky='nsew', column=0, row=0)
         self.f3.off_lab = tk.Label(self.f3)
-        self.f3.off_lab["text"] = ("Автоответчик работает в режиме\n"
+        self.f3.off_lab["text"] = ("Автоответчик будет включен\n в режимe "
                                    + self.f3.combo.get())
         self.f3.off_lab.grid(column=0, row=4)
 
@@ -103,7 +108,7 @@ class Application(tk.Frame):
         self.f3.combo.grid(column=0, row=2)
 
         self.f3.lab = tk.Label(self.f3)
-        self.f3.lab["text"] = "Aвтоответчик выключен"
+        self.f3.lab["text"] = "Aвтоответчик будет выключен"
         self.f3.lab.grid(column=0, row=4)
 
     def save_me(self):
