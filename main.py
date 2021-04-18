@@ -14,6 +14,7 @@ import telethon
 import time
 import tkinter as tk
 from tkinter import ttk
+from tkinter import messagebox as mb
 
 
 class Application(tk.Frame):
@@ -23,7 +24,7 @@ class Application(tk.Frame):
         """Initialize of the main window."""
         super().__init__(master)
         self.master.title("TGA ^_^")
-        self.master.minsize(width=800, height=400)
+        self.master.minsize(width=600, height=400)
         self.master.columnconfigure(3, weight=1)
         self.master.rowconfigure(1, weight=1)
         self.create_widgets()
@@ -37,20 +38,14 @@ class Application(tk.Frame):
         self.F.quit.grid(column=3, row=0)
 
         self.F.quit = tk.Label(self.F)
-        self.F.quit["text"] = ("Выберете и настройте модули которын"
+        self.F.quit["text"] = ("Выберете и настройте модули которые "
                                + "будут запущены    ")
         self.F.quit.grid(column=0, row=0)
 
         self.f1 = tk.LabelFrame(self.master)
-        self.f1.rowconfigure(5, weight=1)
+        self.f1.rowconfigure(8, weight=1)
         self.f1.grid(sticky='nsew', column=0, row=1)
-        self.f1.newb = tk.Button(self.f1)
-        self.f1.newb["text"] = "Включить менеджера"
-        self.f1.newb["command"] = self.manage
-        self.f1.newb.grid(sticky='nsew', column=0, row=1)
-        self.f1.lab = tk.Label(self.f1)
-        self.f1.lab["text"] = "Сохранятор выключен"
-        self.f1.lab.grid(column=0, row=4)
+        self.on_manage(first_time=True)
 
         self.f2 = tk.LabelFrame(self.master, width=1000, height=100)
         self.f2.rowconfigure(5, weight=1)
@@ -76,7 +71,7 @@ class Application(tk.Frame):
         self.f3.off_lab = tk.Label(self.f3, font='Times 15', fg='#247719')
         self.f3.off_lab["text"] = ("Автоответчик будет включен\n в режимe "
                                    + self.f3.combo.get())
-        self.f3.off_lab.grid(column=0, row=4)
+        self.f3.off_lab.grid(column=0, row=1)
 
     def on_auto(self, first_time=False):
         """Render of the choice of the optsy autoresponder."""
@@ -91,7 +86,7 @@ class Application(tk.Frame):
 
         self.f3.com_lab = tk.Label(self.f3)
         self.f3.com_lab["text"] = "Причина включения автоответчика:"
-        self.f3.com_lab.grid(column=0, row=1)
+        self.f3.com_lab.grid(column=0, row=2)
         self.f3.combo = ttk.Combobox(self.f3, values=[
                                     "Все бесят",
                                     "Ночное время",
@@ -99,11 +94,11 @@ class Application(tk.Frame):
                                     "Экзамен",
                                     "Детокс"])
         self.f3.combo.current(0)
-        self.f3.combo.grid(column=0, row=2)
+        self.f3.combo.grid(column=0, row=3)
 
         self.f3.lab = tk.Label(self.f3, font='Times 15', fg='#960018')
         self.f3.lab["text"] = "Aвтоответчик будет выключен"
-        self.f3.lab.grid(column=0, row=4)
+        self.f3.lab.grid(column=0, row=1)
 
     def on_saver(self, first_time=False):
         """Render of the choice of the optsy save machine."""
@@ -118,13 +113,13 @@ class Application(tk.Frame):
         self.f2.lab_m = tk.Label(self.f2)
         self.f2.lab_m["text"] = ("Ссылка на группу для уведомлений\n"
                                  + "(не обязательное поле)")
-        self.f2.lab_m.grid(column=0, row=1)
+        self.f2.lab_m.grid(column=0, row=2)
         self.f2.message = tk.StringVar()
         self.f2.message_entry = tk.Entry(self.f2, textvariable=self.f2.message)
-        self.f2.message_entry.grid(column=0, row=2)
+        self.f2.message_entry.grid(column=0, row=3)
         self.f2.lab = tk.Label(self.f2, font='Times 15', fg='#960018')
         self.f2.lab["text"] = "Сохранятор будет выключен"
-        self.f2.lab.grid(column=0, row=4)
+        self.f2.lab.grid(column=0, row=1)
 
     def off_saver(self):
         """Render an enabled save machine."""
@@ -146,9 +141,86 @@ class Application(tk.Frame):
             self.f2.lab["text"] = "Адрес группы уведомлений получен"
         self.f2.lab.grid(column=0, row=2)
 
-    def manage(self):
-        """Use to start manage machine."""
+    def on_manage(self, first_time=False):
+        """Render of the choice of the optsy manage machine."""
         print("manage")
+        if not first_time:
+            self.f1.off_newb.grid_forget()
+            self.f1.lab_info.grid_forget()
+        self.f1.newb = tk.Button(self.f1)
+        self.f1.newb["text"] = "Включить менеджера"
+        self.f1.newb["command"] = self.off_manage
+        self.f1.newb.grid(sticky='nsew', column=0, row=0)
+        self.f1.lab_id = tk.Label(self.f1)
+        self.f1.lab_id["text"] = ("ID исполнителя:")
+        self.f1.lab_id.grid(column=0, row=2)
+        self.f1.m_id = tk.StringVar()
+        self.f1.id_entry = tk.Entry(self.f1, textvariable=self.f1.m_id)
+        self.f1.id_entry.grid(column=0, row=3)
+
+        self.f1.lab_task = tk.Label(self.f1)
+        self.f1.lab_task["text"] = ("Задача:")
+        self.f1.lab_task.grid(column=0, row=4)
+        self.f1.m_task = tk.StringVar()
+        self.f1.task_entry = tk.Entry(self.f1, textvariable=self.f1.m_task)
+        self.f1.task_entry.grid(column=0, row=5)
+
+        self.f1.lab_day = tk.Label(self.f1)
+        self.f1.lab_day["text"] = ("Кол-во дней до дедлайна:")
+        self.f1.lab_day.grid(column=0, row=6)
+        self.f1.m_day = tk.StringVar()
+        self.f1.day_entry = tk.Entry(self.f1, textvariable=self.f1.m_day)
+        self.f1.day_entry.grid(column=0, row=7)
+
+        self.f1.lab = tk.Label(self.f1, font='Times 15', fg='#960018')
+        self.f1.lab["text"] = "Чайка-менеджер будет включен"
+        self.f1.lab.grid(column=0, row=1)
+
+    def off_manage(self):
+        """Render an enabled manage machine."""
+        print("off_manage")
+
+        if self.f1.m_day.get() == "" or self.f1.m_task.get() == "" \
+                or self.f1.m_id.get() == "":
+            mb.showerror(title="Ошибка",
+                         message="Все поляявляются обязательными "
+                         + "для начтройки Чайки")
+            self.f1.newb.grid_forget()
+            self.f1.lab_id.grid_forget()
+            self.f1.lab.grid_forget()
+            self.f1.id_entry.grid_forget()
+            self.f1.lab_task.grid_forget()
+            self.f1.task_entry.grid_forget()
+            self.f1.lab_day.grid_forget()
+            self.f1.day_entry.grid_forget()
+            self.on_manage(first_time=True)
+            return
+
+        print("1off_manage")
+        self.f1.newb.grid_forget()
+        self.f1.lab_id.grid_forget()
+        self.f1.lab.grid_forget()
+        self.f1.id_entry.grid_forget()
+        self.f1.lab_task.grid_forget()
+        self.f1.task_entry.grid_forget()
+        self.f1.lab_day.grid_forget()
+        self.f1.day_entry.grid_forget()
+
+        self.f1.off_newb = tk.Button(self.f1)
+        self.f1.off_newb["command"] = self.on_manage
+        self.f1.off_newb["text"] = "Отключить менеджера"
+        self.f1.off_newb.grid(column=0, row=0)
+
+        self.f1.lab = tk.Label(self.f1, font='Times 15', fg='#247719')
+        self.f1.lab["text"] = "Чайка-менеджер будет включен"
+        self.f1.lab.grid(column=0, row=1)
+
+        self.f1.lab_info = tk.Label(self.f1, font='Times 15', fg='#247719')
+        self.f1.lab_info["text"] = ("\n\nЗадача " + self.f1.m_task.get()
+                                    + "\nбудет выдана " + self.f1.m_id.get()
+                                    + "\nна срок " + self.f1.m_day.get()
+                                    + "(в днях)")
+        self.f1.lab_info.grid(column=0, row=2)
 
 
 class TelegramAssistant():
