@@ -13,6 +13,7 @@ import sqlite3
 import telethon
 import time
 import tkinter as tk
+from tkinter import ttk
 
 
 class Application(tk.Frame):
@@ -60,18 +61,50 @@ class Application(tk.Frame):
         self.f3 = tk.LabelFrame(self.master)
         self.f3.rowconfigure(5, weight=1)
         self.f3.grid(sticky='nsew', column=2, row=1)
+        self.on_auto(first_time=True)
+
+    def off_auto(self):
+        """Render an enabled answering machine."""
+        print("off_auto")
+        self.f3.newb.grid_forget()
+        self.f3.com_lab.grid_forget()
+        self.f3.combo.grid_forget()
+        self.f3.lab.grid_forget()
+        self.f3.off_auto = tk.Button(self.f3)
+        self.f3.off_auto["text"] = "Отключить автоответчик"
+        self.f3.off_auto["command"] = self.on_auto
+        self.f3.off_auto.grid(sticky='nsew', column=0, row=0)
+        self.f3.off_lab = tk.Label(self.f3)
+        self.f3.off_lab["text"] = ("Автоответчик работает в режиме\n"
+                                   + self.f3.combo.get())
+        self.f3.off_lab.grid(column=0, row=4)
+
+    def on_auto(self, first_time=False):
+        """Render of the choice of the optsy autoresponder."""
+        print("on_auto")
+        if not first_time:
+            self.f3.off_auto.grid_forget()
+            self.f3.off_lab.grid_forget()
         self.f3.newb = tk.Button(self.f3)
         self.f3.newb["text"] = "Включить автоответчик"
-        self.f3.newb["command"] = self.answering
+        self.f3.newb["command"] = self.off_auto
         self.f3.newb.grid(sticky='nsew', column=0, row=0)
+
+        self.f3.com_lab = tk.Label(self.f3)
+        self.f3.com_lab["text"] = "Причина включения автоответчика:"
+        self.f3.com_lab.grid(column=0, row=1)
+        self.f3.combo = ttk.Combobox(self.f3, values=[
+                                    "Все бесят",
+                                    "Ночное время",
+                                    "Важная встреча",
+                                    "Экзамен",
+                                    "Детокс"])
+        self.f3.combo.current(0)
+        self.f3.combo.grid(column=0, row=2)
 
         self.f3.lab = tk.Label(self.f3)
         self.f3.lab["text"] = "Aвтоответчик выключен"
         self.f3.lab.grid(column=0, row=4)
-
-    def answering(self):
-        """Use to start an answering machine."""
-        print("aurtoanswer")
 
     def save_me(self):
         """Use to start save machine."""
@@ -172,7 +205,8 @@ async def main(tga):
                 mon_link = tga.config['mon_link']
                 if mon_link:
                     mon_group = await tga.client.get_entity(mon_link)
-                    await tga.client.send_message(entity=mon_group, message=log_info)
+                    await tga.client.send_message(entity=mon_group,
+                                                  message=log_info)
 
                 print(log_info)
 
