@@ -23,7 +23,7 @@ class Application(tk.Frame):
         """Initialize of the main window."""
         super().__init__(master)
         self.master.title("TGA ^_^")
-        self.master.minsize(width=600, height=400)
+        self.master.minsize(width=800, height=400)
         self.master.columnconfigure(3, weight=1)
         self.master.rowconfigure(1, weight=1)
         self.create_widgets()
@@ -55,13 +55,7 @@ class Application(tk.Frame):
         self.f2 = tk.LabelFrame(self.master, width=1000, height=100)
         self.f2.rowconfigure(5, weight=1)
         self.f2.grid(sticky='nsew', column=1, row=1)
-        self.f2.newb = tk.Button(self.f2)
-        self.f2.newb["command"] = self.save_me
-        self.f2.newb["text"] = "Включить сохронятор"
-        self.f2.newb.grid(column=0, row=0)
-        self.f2.lab = tk.Label(self.f2)
-        self.f2.lab["text"] = "Сохранятор выключен"
-        self.f2.lab.grid(column=0, row=4)
+        self.on_saver(first_time=True)
 
         self.f3 = tk.LabelFrame(self.master)
         self.f3.rowconfigure(5, weight=1)
@@ -79,7 +73,7 @@ class Application(tk.Frame):
         self.f3.off_auto["text"] = "Отключить автоответчик"
         self.f3.off_auto["command"] = self.on_auto
         self.f3.off_auto.grid(sticky='nsew', column=0, row=0)
-        self.f3.off_lab = tk.Label(self.f3)
+        self.f3.off_lab = tk.Label(self.f3, font='Times 15', fg='#247719')
         self.f3.off_lab["text"] = ("Автоответчик будет включен\n в режимe "
                                    + self.f3.combo.get())
         self.f3.off_lab.grid(column=0, row=4)
@@ -107,13 +101,50 @@ class Application(tk.Frame):
         self.f3.combo.current(0)
         self.f3.combo.grid(column=0, row=2)
 
-        self.f3.lab = tk.Label(self.f3)
+        self.f3.lab = tk.Label(self.f3, font='Times 15', fg='#960018')
         self.f3.lab["text"] = "Aвтоответчик будет выключен"
         self.f3.lab.grid(column=0, row=4)
 
-    def save_me(self):
-        """Use to start save machine."""
+    def on_saver(self, first_time=False):
+        """Render of the choice of the optsy save machine."""
         print("save_me")
+        if not first_time:
+            self.f2.off_newb.grid_forget()
+            self.f2.lab.grid_forget()
+        self.f2.newb = tk.Button(self.f2)
+        self.f2.newb["command"] = self.off_saver
+        self.f2.newb["text"] = "Включить сохронятор"
+        self.f2.newb.grid(column=0, row=0)
+        self.f2.lab_m = tk.Label(self.f2)
+        self.f2.lab_m["text"] = ("Ссылка на группу для уведомлений\n"
+                                 + "(не обязательное поле)")
+        self.f2.lab_m.grid(column=0, row=1)
+        self.f2.message = tk.StringVar()
+        self.f2.message_entry = tk.Entry(self.f2, textvariable=self.f2.message)
+        self.f2.message_entry.grid(column=0, row=2)
+        self.f2.lab = tk.Label(self.f2, font='Times 15', fg='#960018')
+        self.f2.lab["text"] = "Сохранятор будет выключен"
+        self.f2.lab.grid(column=0, row=4)
+
+    def off_saver(self):
+        """Render an enabled save machine."""
+        self.f2.newb.grid_forget()
+        self.f2.lab.grid_forget()
+        self.f2.lab_m.grid_forget()
+        self.f2.message_entry.grid_forget()
+        self.f2.off_newb = tk.Button(self.f2)
+        self.f2.off_newb["command"] = self.on_saver
+        self.f2.off_newb["text"] = "Отключить сохронятор"
+        self.f2.off_newb.grid(column=0, row=0)
+        self.f2.lab = tk.Label(self.f2, font='Times 15', fg='#247719')
+        self.f2.lab["text"] = "Сохранятор будет включен"
+        self.f2.lab.grid(column=0, row=1)
+        self.f2.lab = tk.Label(self.f2, font='Times 15', fg='#247719')
+        if self.f2.message.get() == "":
+            self.f2.lab["text"] = "Без группы уведомлений"
+        else:
+            self.f2.lab["text"] = "Адрес группы уведомлений получен"
+        self.f2.lab.grid(column=0, row=2)
 
     def manage(self):
         """Use to start manage machine."""
