@@ -1,27 +1,27 @@
-{"Все бесят":
-["Отстань.",
-"Я в плохом настроении.",
-"Не сейчас.",
-"Позже.",
-"угу",
+{"FFFFUUUUU!!!":
+["F*ck off.",
+"I'm in bad mood right now.",
+"Not now.",
+"Talk to you later.",
+"Yep",
 "..."], 
-"Ночное время": 
-["Ты врямя видел?",
-"Сколько времени?",
-"Я сплю.",
-"Утром.",
-"Спокойной ночи.",
-"zzzZZ"],
-"Важная встреча": 
-["Я на встрече.",
-"Я на встрече, это автоответчик.",
-"Очень занят, отвечу позже."],
-"Экзамен": 
-["Я на экзамене.",
-"Ты мешаешь мне списывать.",
-"Потом напишу! Я на экзамене."],
-"Детокс": 
-["А вы задумывались о том, что будет если отказаться от гаджетов? Как я сейчас, например.",
-"У меня детокс. Отвечать буду когда он закончится.",
-"Здравствуйте и добро пожаловать в медитацию сна, займите удобное..."]
+"Night time": 
+["Did you see the clock??",
+"What time is it now?",
+"I'm sleepin.",
+"Talk to you in the morning.",
+"Good night.",
+"zzZZzz"],
+"Important meeting": 
+["I'm at the meeting.",
+"I'm at the meeting, you are answered by Autoresponder.",
+"Very busy, I'll answer you later."],
+"Exam": 
+["I'm at the exam.",
+"You are preventing me from cheating.",
+"Talk to you later! I'm at the exam."],
+"Detox": 
+["Have you ever thought about what will happen if you give up gadgets? As I did, for example.",
+"I have a detox. I will answer when it ends.",
+"Hello and welcome to sleep meditation, take a comfortable ... "]
 }
