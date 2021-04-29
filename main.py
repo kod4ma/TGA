@@ -60,7 +60,7 @@ class Application(tk.Frame):
         self.F.quit.grid(column=3, row=0)
 
         self.F.quit = tk.Label(self.F)
-        self.F.quit["text"] = (_("Select & setup modules to be launched"))
+        self.F.quit["text"] = (_("Select & setup modules to be launched   "))
         self.F.quit.grid(column=0, row=0)
 
         self.f1 = tk.LabelFrame(self.master)
