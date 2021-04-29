@@ -28,13 +28,15 @@ print(current_locale)
 
 gettext.install('app', localedir='po')
 
+
 class Application(tk.Frame):
     """Class for working with tkinter."""
 
     def __init__(self, master=None):
         """Initialize of the main window.
 
-        :param master: master window (in terms of TkInter) for Application window
+        :param master: master window (in terms of TkInter) for
+        Application window
         """
         super().__init__(master)
         self.master.title("TGA ^_^")
@@ -51,13 +53,14 @@ class Application(tk.Frame):
         :return: None
         """
         self.F = tk.LabelFrame(self.master)
+        self.F.columnconfigure(3, minsize=200)
         self.F.grid(sticky='news', columnspan=3, row=0)
         self.F.quit = tk.Button(self.F, text=_("Apply"),
                                 command=self.save_config)
         self.F.quit.grid(column=3, row=0)
 
         self.F.quit = tk.Label(self.F)
-        self.F.quit["text"] = (_("Select & setup modules to be launched   "))
+        self.F.quit["text"] = (_("Select & setup modules to be launched"))
         self.F.quit.grid(column=0, row=0)
 
         self.f1 = tk.LabelFrame(self.master)
@@ -91,7 +94,8 @@ class Application(tk.Frame):
         self.f3.off_auto["command"] = self.on_auto
         self.f3.off_auto.grid(sticky='nsew', column=0, row=0)
         self.f3.off_lab = tk.Label(self.f3, font='Times 15', fg='#247719')
-        self.f3.off_lab["text"] = (_("Autoresponder will be enabled\n using mode: ")
+        self.f3.off_lab["text"] = (_("Autoresponder will be enabled\n"
+                                     + " using mode: ")
                                    + self.f3.combo.get())
         self.f3.off_lab.grid(column=0, row=1)
         self.configuration['ansver']['enabel'] = True
@@ -147,7 +151,7 @@ class Application(tk.Frame):
         self.f2.newb.grid(column=0, row=0)
         self.f2.lab_m = tk.Label(self.f2)
         self.f2.lab_m['text'] = _("Notification group invite-link\n"
-                                 + "(not required)")
+                                  + "(not required)")
         self.f2.lab_m.grid(column=0, row=2)
         self.f2.message = tk.StringVar()
         self.f2.message_entry = tk.Entry(self.f2, textvariable=self.f2.message)
@@ -269,7 +273,8 @@ class Application(tk.Frame):
 
         self.f1.lab_info = tk.Label(self.f1, font='Times 15', fg='#247719')
         self.f1.lab_info['text'] = (_("\n\nTask ") + self.f1.m_task.get()
-                                    + _("\nwill be assigned to " + self.f1.m_id.get()
+                                    + _("\nwill be assigned to "
+                                        + self.f1.m_id.get()
                                     + _("\nfor ") + self.f1.m_day.get()
                                     + _(" days")))
         self.f1.lab_info.grid(column=0, row=2)
@@ -294,7 +299,8 @@ class TelegramAssistant():
         """Client initialization.
 
         :param self: TGA object
-        :param config_path: Configuration dictionary stored at storage/config.json
+        :param config_path: Configuration dictionary stored
+        at storage/config.json
         :return: None
         """
         self.config = {}
@@ -352,7 +358,7 @@ class TelegramAssistant():
 
 async def manager_modul(tga, config):
     print("i am in")
-    f = open("dictionaries/manage", "r")
+    f = open(_("dictionaries/manage"), "r")
     text = f.read()
     d = ast.literal_eval(text)
     task = config['manage']['task']
@@ -385,10 +391,9 @@ async def main(tga):
         await manager_modul(tga, config=app.configuration)
 
     if(app.configuration['ansver'] != {}):
-        f = open("dictionaries/ansver", "r")
+        f = open(_("dictionaries/ansver"), "r")
         text = f.read()
         ans_dic = ast.literal_eval(text)
-
 
     @tga.client.on(telethon.events.MessageDeleted)
     async def save_deleted_messages(event):
@@ -423,7 +428,7 @@ async def main(tga):
                     if mon_link:
                         mon_group = await tga.client.get_entity(mon_link)
                         await tga.client.send_message(entity=mon_group,
-                                                  message=log_info)
+                                                      message=log_info)
 
                 print(log_info)
 
@@ -449,17 +454,13 @@ async def main(tga):
         cursor.executemany("INSERT INTO messages VALUES (?,?,?,?,?)", row)
         db.commit()
 
-
         sender = await tga.client.get_entity(int(sender_id))
-        #print(sender)
         print(f"+message[{message_id}]: <{message}> from {sender.first_name}")
-        if(app.configuration['ansver'] != {} and  not event.is_group):
+        if(app.configuration['ansver'] != {} and not event.is_group):
             print("i am in")
             categori = app.configuration['ansver']['dic']
             my_choice = random.choice(ans_dic[categori])
             await tga.client.send_message(sender.id, my_choice)
-
-
 
     print(_("[*] TGA is logged in and listening for events..."))
     await tga.client.run_until_disconnected()
