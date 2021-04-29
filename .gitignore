@@ -1,5 +1,5 @@
-# ignore session files
-sessions/*.session
+# ignore all session files
+.session
 
 # ignore all .json files
 .json
