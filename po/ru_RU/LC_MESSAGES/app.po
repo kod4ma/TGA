@@ -1,0 +1,182 @@
+# Russian (Russia) translations for PROJECT.
+# Copyright (C) 2021 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2021.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2021-04-29 10:24+0300\n"
+"PO-Revision-Date: 2021-04-29 10:25+0300\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: ru_RU\n"
+"Language-Team: ru_RU <LL@li.org>\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2)\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.9.1\n"
+
+#: main.py:56
+msgid "Apply"
+msgstr "Применить настройки"
+
+#: main.py:61
+msgid "Select & setup modules to be launched   "
+msgstr "Выберете и настройте модули которые будут запущены    "
+
+#: main.py:91
+msgid "Disable the Autoresponder"
+msgstr "Отключить автоответчик"
+
+#: main.py:95
+msgid ""
+"Autoresponder will be enabled\n"
+" using mode: "
+msgstr ""
+"Автоответчик будет включен\n"
+" в режимe "
+
+#: main.py:113
+msgid "Enable the Autoresponder"
+msgstr "Включить автоответчик"
+
+#: main.py:118
+msgid "Reason of enabling:"
+msgstr "Причина включения автоответчика:"
+
+#: main.py:121
+msgid "FFFFUUUUU!!!"
+msgstr "Все бесят"
+
+#: main.py:122
+msgid "Night time"
+msgstr "Ночное время"
+
+#: main.py:123
+msgid "Important meeting"
+msgstr "Важная встреча"
+
+#: main.py:124
+msgid "Exam"
+msgstr "Экзамен"
+
+#: main.py:125
+msgid "Detox"
+msgstr "Детокс"
+
+#: main.py:130
+msgid "Autoresponder will be disabled"
+msgstr "Aвтоответчик будет выключен"
+
+#: main.py:147
+msgid "Enable the Saver"
+msgstr "Включить сохронятор"
+
+#: main.py:150
+msgid ""
+"Notification group invite-link\n"
+"(not required)"
+msgstr ""
+"Ссылка на группу для уведомлений\n"
+"(не обязательное поле)"
+
+#: main.py:157
+msgid "Saver will be disabled"
+msgstr "Сохранятор будет выключен"
+
+#: main.py:173
+msgid "Disable the Saver"
+msgstr "Отключить сохронятор"
+
+#: main.py:176
+msgid "Saver will be enabled"
+msgstr "Сохранятор будет включонн"
+
+#: main.py:181
+msgid "Notification group not used"
+msgstr "Без группы уведомлений"
+
+#: main.py:183
+msgid "Invite-link accepted"
+msgstr "Адрес группы уведомлений получен"
+
+#: main.py:199
+msgid "Enable the Manager"
+msgstr "Включить менеджера"
+
+#: main.py:203
+msgid "Assignee's phone:"
+msgstr "Номер исполнителя:"
+
+#: main.py:210
+msgid "Task:"
+msgstr "Задача:"
+
+#: main.py:217
+msgid "Days left until deadline:"
+msgstr "Кол-во дней до дедлайна:"
+
+#: main.py:224
+msgid "Seagull-Manager will be disabled"
+msgstr "Чайка-менеджер будет выключен"
+
+#: main.py:238
+msgid "Error"
+msgstr "Ошибка"
+
+#: main.py:239
+msgid "All fields are required for Seagull-Manager setup"
+msgstr "Все поля являются обязательными для начтройки Чайки"
+
+#: main.py:264
+msgid "Disable the Manager"
+msgstr "Отключить менеджера"
+
+#: main.py:268
+msgid "Seagull-Manager will be enabled"
+msgstr "Чайка-менеджер будет включен"
+
+#: main.py:272
+msgid ""
+"\n"
+"\n"
+"Task "
+msgstr ""
+"\n"
+"\n"
+"Задача "
+
+#: main.py:273
+msgid ""
+"\n"
+"will be assigned to "
+msgstr ""
+"\n"
+"будет выдана) "
+
+#: main.py:274
+msgid ""
+"\n"
+"for "
+msgstr ""
+"\n"
+"на срок "
+
+#: main.py:275
+msgid " days"
+msgstr "(в днях)"
+
+#: main.py:356
+msgid "dictionaries/manage"
+msgstr "dictionaries/manage_ru"
+
+#: main.py:389
+msgid "dictionaries/ansver_ru"
+msgstr ""
+
+#: main.py:465
+msgid "[*] TGA is logged in and listening for events..."
+msgstr "[*] TGA вошел в систему и слушает события ..."
