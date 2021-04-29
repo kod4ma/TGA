@@ -1,11 +1,11 @@
-subl{"first":
-["Heya! You have been assigned a task {task}. How many days will it take to complete the task? Will {day} days be enough?",
-"Hi, new task {task}. {day} days left until deadline.",
-"Greetings, I have a task for you. {task}. It would be nice to complete it yesterday, but I can give {day} days."], "other": 
-["How is it going with {task}?",
-"Hi, texting you about {task}. Do you meet the deadline?",
-"I don't want to be annoying, but there are {day} days left for the task {task}.",
-"Are you working on the task {task}?",
-"How is it going with the task {task}?"
+{"first":
+["Прив, тебе прилетела задача {task}. За сколько дней справишься? {day} достаточно будет?",
+"Привет, новая задача {task}. До дедлайна {day} дней.",
+"Здрасте, есть таск для тебя. {task}. Хорошо бы вчера, но {day} дней можно выбить."], "other": 
+["Как дела с {task}?",
+"Привет, я по поводу {task}. Успеваешь?",
+"Не хочу быть надоедливым, но на {task} осталось {day} дней.",
+"Ты делаешь {task}?",
+"Как успехи c {task}?"
 ]}
 

@@ -150,12 +150,8 @@ msgstr ""
 "Задача "
 
 #: main.py:273
-msgid ""
-"\n"
-"will be assigned to "
-msgstr ""
-"\n"
-"будет выдана) "
+msgid "\nwill be assigned to "
+msgstr "\nбудет выдана "
 
 #: main.py:274
 msgid ""
@@ -174,8 +170,8 @@ msgid "dictionaries/manage"
 msgstr "dictionaries/manage_ru"
 
 #: main.py:389
-msgid "dictionaries/ansver_ru"
-msgstr ""
+msgid "dictionaries/ansver"
+msgstr "dictionaries/ansver_ru"
 
 #: main.py:465
 msgid "[*] TGA is logged in and listening for events..."
