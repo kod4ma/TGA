@@ -357,6 +357,12 @@ class TelegramAssistant():
 
 
 async def manager_modul(tga, config):
+    """Scenario for the Seagull-Manager module.
+
+    :param tga: TGA object
+    :param config: Configuration made at TkInter stage
+    :return: None
+    """
     print("i am in")
     f = open(_("dictionaries/manage"), "r")
     text = f.read()
