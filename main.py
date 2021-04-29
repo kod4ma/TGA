@@ -270,7 +270,6 @@ class TelegramAssistant():
 
         self.config['api_hash'] = input('api_hash: ')
         self.config['api_id'] = int(input('api_id: '))
-        self.config['mon_link'] = input('Monitor group invite link: ')
         sess_id = ''.join(random.choices(string.ascii_lowercase, k=8))
         self.config['session_path'] = 'sessions/' + sess_id + '.session'
         self.config['db_path'] = 'storage/' + sess_id + '.db'
@@ -355,10 +354,11 @@ async def main(tga):
                                """)
                 db.commit()
 
-                mon_link = tga.config['mon_link']
-                if mon_link:
-                    mon_group = await tga.client.get_entity(mon_link)
-                    await tga.client.send_message(entity=mon_group,
+                if 'group' in app.configuration['save'].keys():
+                    mon_link = app.configuration['save']['group']
+                    if mon_link:
+                        mon_group = await tga.client.get_entity(mon_link)
+                        await tga.client.send_message(entity=mon_group,
                                                   message=log_info)
 
                 print(log_info)
