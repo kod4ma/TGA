@@ -3,6 +3,8 @@
 
 TGA is created for simplifying the process of performing routine job
 in Telegram Messenger and also for casting some fancy message magic.
+
+:copyright: Anna, Philip, 2021
 """
 
 import json
@@ -23,7 +25,10 @@ class Application(tk.Frame):
     """Class for working with tkinter."""
 
     def __init__(self, master=None):
-        """Initialize of the main window."""
+        """Initialize of the main window.
+
+        :param master: master window (in terms of TkInter) for Application window
+        """
         super().__init__(master)
         self.master.title("TGA ^_^")
         self.master.minsize(width=600, height=400)
@@ -33,7 +38,11 @@ class Application(tk.Frame):
         self.create_widgets()
 
     def create_widgets(self):
-        """Create widgets."""
+        """Create widgets.
+
+        :param self: Application object
+        :return: None
+        """
         self.F = tk.LabelFrame(self.master)
         self.F.grid(sticky='news', columnspan=3, row=0)
         self.F.quit = tk.Button(self.F, text="Применить настройки",
@@ -61,7 +70,11 @@ class Application(tk.Frame):
         self.on_auto(first_time=True)
 
     def off_auto(self):
-        """Render an enabled answering machine."""
+        """Render an enabled answering machine.
+
+        :param self: Application object
+        :return: None
+        """
         print("off_auto")
         self.f3.newb.grid_forget()
         self.f3.com_lab.grid_forget()
@@ -79,7 +92,12 @@ class Application(tk.Frame):
         self.configuration['ansver']['dic'] = self.f3.combo.get()
 
     def on_auto(self, first_time=False):
-        """Render of the choice of the optsy autoresponder."""
+        """Render of the choice of the optsy autoresponder.
+
+        :param self: Application object
+        :param first_time: Flag that indicates no buttons were pushed yet
+        :return: None
+        """
         print("on_auto")
         if not first_time:
             self.f3.off_auto.grid_forget()
@@ -107,7 +125,12 @@ class Application(tk.Frame):
         self.configuration['ansver'] = {}
 
     def on_saver(self, first_time=False):
-        """Render of the choice of the optsy save machine."""
+        """Render of the choice of the optsy save machine.
+
+        :param self: Application object
+        :param first_time: Flag that indicates if no buttons were pushed yet
+        :return: None
+        """
         print("save_me")
         if not first_time:
             self.f2.off_newb.grid_forget()
@@ -129,7 +152,11 @@ class Application(tk.Frame):
         self.configuration['save'] = {}
 
     def off_saver(self):
-        """Render an enabled save machine."""
+        """Render an enabled save machine.
+
+        :param self: Application object
+        :return: None
+        """
         self.f2.newb.grid_forget()
         self.f2.lab.grid_forget()
         self.f2.lab_m.grid_forget()
@@ -151,7 +178,12 @@ class Application(tk.Frame):
         self.f2.lab.grid(column=0, row=2)
 
     def on_manage(self, first_time=False):
-        """Render of the choice of the optsy manage machine."""
+        """Render of the choice of the optsy manage machine.
+
+        :param self: Application object
+        :param first_time: Flag that indicates if no buttons were pushed yet
+        :return: None
+        """
         print("manage")
         if not first_time:
             self.f1.off_newb.grid_forget()
@@ -187,7 +219,11 @@ class Application(tk.Frame):
         self.configuration['manage'] = {}
 
     def off_manage(self):
-        """Render an enabled manage machine."""
+        """Render an enabled manage machine.
+
+        :param self: Application object
+        :return: None
+        """
         print("off_manage")
 
         if self.f1.m_day.get() == "" or self.f1.m_task.get() == "" \
@@ -237,7 +273,11 @@ class Application(tk.Frame):
         self.configuration['manage']['day'] = self.f1.m_day.get()
 
     def save_config(self):
-        """Output validation function."""
+        """Output validation function.
+
+        :param self: Application object
+        :return: None
+        """
         self.master.destroy()
 
 
@@ -247,8 +287,9 @@ class TelegramAssistant():
     def __init__(self, config_path):
         """Client initialization.
 
-        Args:
-            config: Configuration dictionary stored at storage/config.json
+        :param self: TGA object
+        :param config_path: Configuration dictionary stored at storage/config.json
+        :return: None
         """
         self.config = {}
 
@@ -265,7 +306,11 @@ class TelegramAssistant():
                                               self.config['api_hash'])
 
     def initialize_auth_config(self):
-        """Config initialization. Needed at first startup."""
+        """Config initialization. Needed at first startup.
+
+        :param self: TGA object
+        :return: None
+        """
         print("""First time hello! Let's configure your TGA""")
 
         self.config['api_hash'] = input('api_hash: ')
@@ -289,7 +334,11 @@ class TelegramAssistant():
         print("Great! You can edit your configuration at storage/config.json")
 
     async def verify_auth(self):
-        """Auth verification function for testing purposes."""
+        """Auth verification function for testing purposes.
+
+        :param self: TGA object
+        :return: None
+        """
         await self.client.send_message('me', 'Domo, senpai!')
         me = await self.client.get_me()
         print(me.stringify())
@@ -317,8 +366,8 @@ async def manager_modul(tga, config):
 async def main(tga):
     """General program flow for demonstrating modules or creating scenarios.
 
-    Args:
-        tga: Telegram Assistant object to perform actions.
+    :param tga: TGA object
+    :return: None
     """
     await tga.client.start()
 
@@ -332,7 +381,11 @@ async def main(tga):
 
     @tga.client.on(telethon.events.MessageDeleted)
     async def save_deleted_messages(event):
-        """Save all messages that got deleted into database."""
+        """Save all messages that got deleted into database.
+
+        :param event: Telethon MessageDeleted event object
+        :return: None
+        """
         if(app.configuration['save'] == {}):
             return
 
@@ -365,7 +418,11 @@ async def main(tga):
 
     @tga.client.on(telethon.events.NewMessage)
     async def new_msg_handler(event):
-        """Save all new messages into database."""
+        """Save all new messages into database.
+
+        :param event: Telethon NewMessage event object
+        :return: None
+        """
         message_meta = event.message.to_dict()
         message = message_meta['message']
         message_id = str(message_meta['id'])
@@ -388,6 +445,5 @@ async def main(tga):
     await tga.client.run_until_disconnected()
 
 if __name__ == '__main__':
-
     tga = TelegramAssistant(config_path='storage/config.json')
     tga.client.loop.run_until_complete(main(tga))
