@@ -334,6 +334,9 @@ async def main(tga):
     @tga.client.on(telethon.events.MessageDeleted)
     async def save_deleted_messages(event):
         """Save all messages that got deleted into database."""
+        if(app.configuration['save'] == {}):
+            return
+
         for message_id in event.deleted_ids:
             db = sqlite3.connect(tga.config['db_path'])
             cursor = db.cursor()
